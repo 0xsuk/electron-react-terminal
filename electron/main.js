@@ -1,23 +1,14 @@
-console.log("ELECTRON");
+console.log(process.env.SHELL);
 const path = require("path");
 const { app, BrowserWindow } = require("electron");
 const { ipcMain } = require("electron/main");
-
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 900,
-    height: 700,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
-  });
-
-  win.loadURL("http://localhost:3000");
-};
+const { createWindow } = require("./lib/windowManager");
+const { spawnShell } = require("./api");
 
 app.whenReady().then(() => {
   createWindow();
 
+  ipcMain.handle("spawn-shell", spawnShell);
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
