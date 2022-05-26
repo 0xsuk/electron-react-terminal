@@ -1,8 +1,14 @@
 const NodePty = require("./lib/NodePty");
-const { getWindow } = require("./lib/windowManager");
 
-exports.spawnShell = (_, cwd, cmd) => {
-  const win = getWindow();
-  const pty = new NodePty(win, cwd);
-  pty.write(cmd);
+let ptyProcess = undefined;
+
+exports.typeCommand = (_, cmd) => {
+  if (ptyProcess === undefined) {
+    return;
+  }
+  ptyProcess.write(cmd);
+};
+
+exports.spawnShell = (_, cwd) => {
+  ptyProcess = new NodePty(cwd);
 };

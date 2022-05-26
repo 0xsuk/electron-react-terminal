@@ -1,7 +1,8 @@
 const { contextBridge, ipcRenderer } = require("electron");
-const { spawnShell } = require("./api");
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  spawnShell: () => ipcRenderer.invoke("spawn-shell", spawnShell),
-  onShellData: (callback) => ipcRenderer.on("shelldata", callback),
+  typeCommand: (cmd) => ipcRenderer.invoke("type-command", cmd),
+  spawnShell: (cwd) => ipcRenderer.invoke("spawn-shell", cwd),
+  onShellData: (callback) => ipcRenderer.on("shell-data", callback),
+  onShellExit: (callback) => ipcRenderer.on("shell-exit", callback),
 });

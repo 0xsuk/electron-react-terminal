@@ -1,3 +1,5 @@
+const { BrowserWindow } = require("electron");
+const path = require("path");
 let win = undefined;
 
 const createWindow = () => {
