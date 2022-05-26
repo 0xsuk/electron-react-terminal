@@ -15,7 +15,6 @@ class NodePty {
     });
 
     this.ptyProcess.on("data", (data) => {
-      console.log(data);
       const win = getWindow();
       win.webContents.send("shell-data", data);
     });
